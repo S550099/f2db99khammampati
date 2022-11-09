@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+  - var result = [{"train_name":"Rajadhani","train_size":30,"train_type":"Express"},{"train_name":"Charminar","train_size":40,"train_type":"passenger"},{"train_name":"Metro","train_size":20,"train_type":"superfast"}]
+  div.container-fluid
+     div.row
+        each item,index in result
+            div.col-sm-2(onclick=`buy(${index})`) Train  Name: #{item["train_name"]}  <br>  Train_size: #{item["train_size"]} <br> Train_type: #{item["train_type"]} 
+  script.
+      function buy(index){
+         alert("you purchased item "+(index+1))
+      }
