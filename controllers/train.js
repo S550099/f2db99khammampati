@@ -1,27 +1,34 @@
 var train = require('../models/train');
-// List of all Costumes
+// List of all trains
 exports.train_list = function(req, res) {
  res.send('NOT IMPLEMENTED: train list');
 };
-// for a specific Costume.
-exports.train_detail = function(req, res) {
- res.send('NOT IMPLEMENTED: train detail: ' + req.params.id);
-};
-// Handle Costume create on POST.
+// for a specific train.
+exports.train_detail = async function(req, res) {
+    console.log("detail" + req.params.id)
+    try {
+    result = await train.findById( req.params.id)
+    res.send(result)
+    } catch (error) {
+    res.status(500)
+    res.send(`{"error": document for id ${req.params.id} not found`);
+    }
+   };
+// Handle train create on POST.
 exports.train_create_post = function(req, res) {
  res.send('NOT IMPLEMENTED: train create POST');
 };
-// Handle Costume delete form on DELETE.
+// Handle train delete form on DELETE.
 exports.train_delete = function(req, res) {
  res.send('NOT IMPLEMENTED: train delete DELETE ' + req.params.id);
 };
-// Handle Costume update form on PUT.
+// Handle train update form on PUT.
 exports.train_update_put = function(req, res) {
  res.send('NOT IMPLEMENTED: train update PUT' + req.params.id);
 };
 // VIEWS
 
-   // List of all Costumes
+   // List of all trains
 exports.train_list = async function(req, res) {
     try{
     thetrain = await train.find();
@@ -44,14 +51,14 @@ exports.train_view_all_Page = async function(req, res) {
     res.send(`{"error": ${err}}`);
     }
    };
-   // Handle Costume create on POST.
+   // Handle train create on POST.
 exports.train_create_post = async function(req, res) {
     console.log(req.body)
     let document = new train();
     // We are looking for a body, since POST does not have query parameters.
     // Even though bodies can be in many different formats, we will be picky
     // and require that it be a json object
-    // {"costume_type":"goat", "cost":12, "size":"large"}
+    // {"train_type":"goat", "cost":12, "size":"large"}
     document.train_name = req.body.train_name;
     document.train_size = req.body.train_size;
     document.train_type = req.body.train_type;
@@ -63,4 +70,24 @@ exports.train_create_post = async function(req, res) {
     res.status(500);
     res.send(`{"error": ${err}}`);
     }
-}
+};
+// Handle train update form on PUT.
+exports.train_update_put = async function(req, res) {
+ console.log(`update on id ${req.params.id} with body
+${JSON.stringify(req.body)}`)
+ try {
+ let toUpdate = await train.findById( req.params.id)
+ // Do updates of properties
+ if(req.body.train_name)
+ toUpdate.train_name = req.body.train_name;
+ if(req.body.train_size) toUpdate.train_size = req.body.train_size;
+ if(req.body.train_type) toUpdate.train_type = req.body.train_type;
+ let result = await toUpdate.save();
+ console.log("Sucess " + result)
+ res.send(result)
+ } catch (err) {
+ res.status(500)
+ res.send(`{"error": ${err}: Update for id ${req.params.id}
+failed`);
+ }
+};

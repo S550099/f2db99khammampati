@@ -10,5 +10,7 @@ const train_controlers= require('../controllers/train');
 var router = express.Router();
 /* GET costumes */
 router.get('/', train_controlers.train_view_all_Page );
+// GET request for one costume.
+router.get('/train/:id', train_controlers.train_detail);
 
 module.exports = router;
