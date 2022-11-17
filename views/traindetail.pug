@@ -1,0 +1,23 @@
+extends layout
+block content
+  h1= title
+  if (toShow == null) 
+    h2 No instance to delete 
+  else    
+    - let trainid = toShow._id
+    - let train_type = toShow.train_type
+    - let train_size = toShow.train_size
+    - let train_name = toShow.train_name
+    div(class='csk')
+      div.row
+        div(class='trainAttr mr-3') train ID is:
+        div #{trainid}
+      div.row
+        div(class='trainAttr mr-3') train Type is:
+        div #{train_type}
+      div.row
+        div(class='trainAttr mr-3') train Size is:
+        div #{train_size}
+      div.row
+        div(class='trainAttr mr-3') train name is:
+        div #{train_name}

@@ -1,0 +1,42 @@
+extends layout
+block content
+  h1= title
+  if (toShow == null) 
+    h2 No instance to delete 
+  else      
+    - let trainid = toShow._id
+    - let train_type = toShow.train_type
+    - let train_name = toShow.train_name
+    - let train_size = toShow.train_size
+    div.row(class='mb-2')
+        div.mr-1 ID is
+        div #{trainid}
+    - let actionid = "/resource/train/" + trainid
+    form(id='trainForm', action= actionid, method="PUT")
+        div.form-group
+            label.trainAttr(for='train_type') train type
+            input#train_type(type='text', name='train_type', value= train_type )
+        div.form-group
+            label.trainAttr(for='train_size') train size
+            input#train_size(type='number', name='train_size', value= train_size )
+        div.form-group
+            label.trainAttr(for='train_name') train name
+            input#train_name(type='text', name='train_name', value= train_name )
+        input(type="submit")
+    script.
+        document.forms['trainForm'].addEventListener('submit', (event) => {
+        event.preventDefault();
+        // TODO do something here to show user that form is being submitted
+        fetch(event.target.action, {
+        method: 'PUT',
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+        }).then((resp) => {
+        return resp.json(); // or resp.text() or whatever the server sends
+        }).then((body) => {
+        alert("Update succeded")
+        // TODO handle body
+        }).catch((error) => {
+        // TODO handle error
+        alert("Update failed " + error )
+        });
+        });

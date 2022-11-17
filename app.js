@@ -59,11 +59,12 @@ async function recreateDB() {
     if (err) return console.error(err);
     console.log("second object saved")
   });
-  let instance3 = new train({ train_name: "Metro", train_size: 20, train_type: "superfast" });
+  let instance3 = new train({ train_name: "Metro", train_size: 30, train_type: "superfast" });
   instance3.save(function (err, doc) {
     if (err) return console.error(err);
     console.log("Third object saved")
   });
+
 }
 let reseed = true;
 if (reseed) { recreateDB(); }
